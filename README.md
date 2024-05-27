@@ -1,14 +1,4 @@
+This is a tiny Spring Boot project that can send a message to Kafka, running at `localhost:9092`.
 
-
-# TODO
-
-1. Create two separate apps (producer, consumer)
-2. Dockerize: run apps in Docker
-3. Instead of running local Kafka, use Amazon Kafka (or other cloud solution)
-4. Run docker containers in cloud
-5. add features
-   6. @ControllerAdvice
-   7. @WebMvcTest
-   8. @DataJPATest
-   9. Testcontainers
-
+You can send messages by running this app and sending a POST request to localhost:8080/messages.
+The app will then send the received request's body to as a message to topic `my-spring-topic`.
