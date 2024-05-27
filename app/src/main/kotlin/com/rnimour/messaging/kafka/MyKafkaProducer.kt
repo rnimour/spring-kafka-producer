@@ -14,11 +14,15 @@ class MyKafkaProducer {
     private lateinit var kafkaTemplate: KafkaTemplate<String, String>
 
     fun sendMessage(topic: String, message: String) {
-        val now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))
-        println("$now | Received <$message>. sending to Kafka")
+        log(message)
 
         val future = kafkaTemplate.send(topic, message)
         future.whenComplete(handleCompletion(message))
+    }
+
+    private fun log(message: String) {
+        val now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))
+        println("$now | Received <$message>. sending to Kafka")
     }
 
     private fun handleCompletion(message: String) = { result: SendResult<String, String>?, ex: Throwable? ->
