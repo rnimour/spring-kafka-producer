@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Component
 class MyKafkaProducer {
@@ -11,7 +13,10 @@ class MyKafkaProducer {
     @Autowired
     private lateinit var kafkaTemplate: KafkaTemplate<String, String>
 
-    fun sendMessage(topic: String, message:String) {
+    fun sendMessage(topic: String, message: String) {
+        val now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))
+        println("$now | Received <$message>. sending to Kafka")
+
         val future = kafkaTemplate.send(topic, message)
         future.whenComplete(handleCompletion(message))
     }

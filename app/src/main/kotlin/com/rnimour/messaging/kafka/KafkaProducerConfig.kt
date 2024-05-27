@@ -16,8 +16,6 @@ import org.springframework.kafka.core.ProducerFactory
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @ConditionalOnProperty("rnimour.produce", havingValue = "true")
 @Configuration
@@ -45,9 +43,6 @@ open class KafkaProducerConfig {
 
         @PostMapping("/message")
         fun post(@RequestBody body: String): ResponseEntity<String> {
-
-            val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))
-            println("$time: received <$body>. sending to Kafka")
 
             kafkaProducer.sendMessage(TOPIC, body)
 
